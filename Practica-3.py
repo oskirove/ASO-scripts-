@@ -7,14 +7,15 @@ palabra = respuesta.json()[0]
 print(palabra)
 
 #Texto introductorio.
-print("Bienvenido al ahorcado\nTendrás 8 intentos para averiguar la palabra misteriosa")
+print("Bienvenido al ahorcado\nTendrás",len(palabra), "intentos para averiguar la palabra misteriosa")
 
 cont = 0
 lista_caracteres = []
-#Creamos un bucle que se repita 8 veces y cuando este llegue a 8 se
-#rompa y muestre que el jugador ha perdido
-while cont < 8:
+#Implementamos un bucle que se ejecuta un número de veces igual al número de letras en la palabra.
+#Cuando el bucle alcanza su límite, se interrumpe y se muestra un mensaje indicando que el jugador ha perdido.
+while cont < len(palabra):
     caracter_usuario = input("Introduce un caracter ")
+    #Almacenamos en una lista los caracteres que introduce el usuario.
     lista_caracteres.append(caracter_usuario)
     print(lista_caracteres)
 
@@ -28,6 +29,7 @@ while cont < 8:
     #Si el usuario introduce más de un caracter el programa avisara
     #al usuario de que solo debe introducir un caracter
     if len(caracter_usuario) != 1:
+        cont-=1
         print("Por favor, introduce un único caracter.")
 
     print("Palabra: ", end="")
@@ -43,7 +45,8 @@ while cont < 8:
         elif char == " ":
             print(" ",end="")
         else:
-            print("_", end="")
+            print(" _ ", end="")
+            
     cont+=1
     #Añadimos un salto de linea para mejorar la legibilidad y para que
     #no aparezca todo el texto en una misma linea
@@ -51,5 +54,5 @@ while cont < 8:
 
 #Si el usuario llega al limite de sus intentos tras 1 segundo aparecera el siguiente print.
 time.sleep(1)
-if cont == 8:
+if cont == len(palabra):
     print("Lo sentimos, no has acertado.\nLa palabra misteriosa era",palabra,)
