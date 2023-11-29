@@ -1,58 +1,113 @@
-#Bloque en el cual generamos la palabra aleatoria
-import requests
 import time
-url = "https://random-word-api.herokuapp.com/word?lang=es"
-respuesta = requests.get(url)
-palabra = respuesta.json()[0]
+import random
+# Bloque en el cual creamos la lista de palabras aleatorias.
+# Como el código que se recomienda en la práctica para generar
+# la palabra aleatoria funciona algo mal utilizamos lo siguiente
+palabras = [
+    "manzana", "naranja", "pera", "platano", "uva",
+    "fresa", "kiwi", "pina", "sandia", "melon",
+    "limon", "lima", "mango", "cereza", "frambuesa",
+    "arandano", "papaya", "granada", "coco", "ciruela",
+    "albaricoque", "higo", "melocoton", "ciruela", "fruta",
+    "vegetal", "zanahoria", "brocoli", "coliflor", "espinaca",
+    "calabacin", "pepino", "berenjena", "pimiento", "tomate",
+    "cebolla", "ajo", "patata", "batata", "calabaza",
+    "judia", "guisante", "maiz", "lechuga", "rucula",
+    "col", "repollo", "apio", "puerro", "champinon",
+    "seta", "cebollin", "perejil", "cilantro", "menta",
+    "albahaca", "oregano", "tomillo", "romero", "salvia",
+    "pimienta", "sal", "azucar", "harina", "arroz",
+    "pasta", "pan", "cereal", "avena", "trigo",
+    "leche", "yogur", "queso", "huevo", "carne",
+    "pollo", "pavo", "cerdo", "ternera", "pescado",
+    "salmon", "atun", "camaron", "langosta", "cangrejo",
+    "anchoa", "aceituna", "aceite", "vinagre", "salsa",
+    "mostaza", "mayonesa", "ketchup", "soja", "miel",
+    "nuez", "almendra", "cacahuete", "avellana", "castana",
+    "huevo", "leon", "tigre", "oso", "lobo",
+    "zorro", "ciervo", "jirafa", "elefante", "rinoceronte",
+    "hipopotamo", "leopardo", "pantera", "tortuga", "cocodrilo",
+    "lagarto", "serpiente", "rana", "sapo", "tortuga",
+    "pinguino", "aguila", "buho", "cuervo", "colibri",
+    "flor", "arbol", "pasto", "roca", "montana",
+    "rio", "lago", "mar", "ocean", "isla",
+    "desierto", "selva", "jardin", "parque", "bosque",
+    "casa", "edificio", "ciudad", "calle", "carretera",
+    "puente", "tunel", "estacion", "aeropuerto", "puerto",
+    "escuela", "universidad", "biblioteca", "museo", "teatro",
+    "cine", "estadio", "iglesia", "templo", "mezquita",
+    "sinagoga", "castillo", "torre", "fortaleza", "palacio",
+    "hotel", "restaurante", "cafeteria", "tienda", "mercado",
+    "centro", "plaza", "parque", "jardin", "zoologico",
+    "atracciones", "playa", "montaña", "campamento", "senderismo",
+    "nadar", "correr", "caminar", "bailar", "cantar",
+    "pintar", "escribir", "leer", "jugar", "dormir",
+    "comer", "beber", "reir", "llorar", "sonar"
+]
+
+# Seleccionamos una palabra aleatoria de la lista palabras.
+palabra = random.choice(palabras)
+
+# Definimos una lista donde se almacenaren los caracteres del usuario.
+lista_caracteres = []
+
+
+# Creamos un pequeño menú explicativo para el usuario
+print()
+print("¡Bienvenido al ahorcado!")
+print()
+time.sleep(1)
+print("Tendrás", len(palabra), "intentos para adivinar la palabra oculta.")
+print()
 print(palabra)
 
-#Texto introductorio.
-print("Bienvenido al ahorcado\nTendrás",len(palabra), "intentos para averiguar la palabra misteriosa")
+# Hacemos que el código siguiente tarde en aparecer 2 segundos para que el 
+# usuario lea el texto anterior
+time.sleep(2)
 
 cont = 0
-lista_caracteres = []
-#Implementamos un bucle que se ejecuta un número de veces igual al número de letras en la palabra.
-#Cuando el bucle alcanza su límite, se interrumpe y se muestra un mensaje indicando que el jugador ha perdido.
+
+# Creamos un contador que tenga tantos intentos como letras 
+# tiene la palabra seleccionada en la variable <palabra>
 while cont < len(palabra):
-    caracter_usuario = input("Introduce un caracter ")
-    #Almacenamos en una lista los caracteres que introduce el usuario.
-    lista_caracteres.append(caracter_usuario)
-    print(lista_caracteres)
 
-    #Mostramos por pantalla el número de intentos que lleva el usuario
-    #y lo adaptamos para que use de manera correcta la gramática
-    if cont == 0:
-        print("Llevas",cont+1,"intento")
-    elif cont >= 1:
-        print("Llevas",cont+1,"intentos")
+#solicitamos al usuario que introduzca un caracter
+  caracter_usuario = input("Introduce un caracter: ")
 
-    #Si el usuario introduce más de un caracter el programa avisara
-    #al usuario de que solo debe introducir un caracter
-    if len(caracter_usuario) != 1:
-        cont-=1
-        print("Por favor, introduce un único caracter.")
+# Aquí almacenamos los caracteres que introduce el usuario en una lista
+  lista_caracteres.append(caracter_usuario)
 
-    print("Palabra: ", end="")
-    #Este bucle recorre cada caracter de la palabra aleatoria
-    #y comprueba si coincide con el caracter del usuario.
-    for char in palabra:
-        if char == caracter_usuario:
-            #Utilizamos el end dentro del print para que el siguiente print
-            #que aparece en el apartado else se continuen en la misma linea
-            print(caracter_usuario,end="")
-        #Si el texto contiene un espacio en blanco este se mostrará como tal
-        #y no como un guión.
-        elif char == " ":
-            print(" ",end="")
-        else:
-            print(" _ ", end="")
-            
-    cont+=1
-    #Añadimos un salto de linea para mejorar la legibilidad y para que
-    #no aparezca todo el texto en una misma linea
-    print()
+# En este apartado definimos la variable palabra 
+# como una cadena de caracteres vacia.
 
-#Si el usuario llega al limite de sus intentos tras 1 segundo aparecera el siguiente print.
-time.sleep(1)
-if cont == len(palabra):
-    print("Lo sentimos, no has acertado.\nLa palabra misteriosa era",palabra,)
+#creamos un for para que recorra cada letra de la palabra y si la letra aparece en la lista de caracteres 
+# añada a la palabra oculta (que es una cadena de caracteres vacia) 
+# la palabra que coincida en el espacio y un espacio en blanco y si no 
+# que añada una barra baja (_)
+  palabra_oculta = ""
+  for letra in palabra:
+    if letra in lista_caracteres:
+      palabra_oculta += letra + " "
+    else:
+      palabra_oculta += "_ "
+
+# Mostramos por pantalla lo definido en el bloque anterior y mostramos los intentos que lleva el jugador.
+  print("Palabra: ", palabra_oculta)
+  print("Llevas",cont+1,"intentos")
+
+# Hacemos que si el usuario introduce más de dos caracteres no cuente el intento y lo avise.
+  if len(caracter_usuario) != 1:
+    print("No puedes introducir más de un caracter.Introdúcelo de nuevo.")
+    cont-=1
+  
+  # En este apartado sustituimos los espacios en blanco de la palabra oculta para poder comprobar
+  # la palabra oculta con la palabra seleccionada de la lista.
+  if palabra_oculta.replace(" ", "") == palabra:
+    print("¡Enhorabuena, has acertado la palabra oculta!")
+    break
+
+  cont+=1
+  # Aquí añadimos al juego la función de que cuando el jugador termine todos sus
+  # intentos el script lo avise de que ha perdido.
+  if cont == len(palabra):
+    print("Has perdido, la palabra era", palabra)
